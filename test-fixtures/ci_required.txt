@@ -1,0 +1,18 @@
+# Scenarios (or "scenario:case" ids) that MUST pass for CI to be green.
+# All other cases still run and are reported, but don't fail the build.
+#
+# Add a line as soon as a scenario passes, and never remove it — that way
+# nothing that once worked can silently break again.
+#
+# Suggested order (core first):
+#   s02_prod_hotfix_vs_dev_fix
+#   s07_both_sides_untested
+#   s06_clone_without_metadata
+#   s09_modify_delete
+#   s10_multi_hunk_mixed_provenance
+#   s35_literal_markers_in_content
+#   s32_rebase_inverts_ours_theirs
+#   s25_deploy_rollback
+#   s18_resolution_introduces_new_code
+#   s20_same_patch_different_base
+#   s37_unicode_paths_crlf_and_modes
