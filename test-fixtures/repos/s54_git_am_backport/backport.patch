@@ -1,0 +1,22 @@
+From b869bc07a4661451ffb491c1e2dce32adcc04286 Mon Sep 17 00:00:00 2001
+From: Alice Dev <alice@example.com>
+Date: Mon, 21 Sep 2026 19:58:20 +0530
+Subject: [PATCH] Tiered fee for large amounts
+
+---
+ app/payment.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/app/payment.py b/app/payment.py
+index 89eb36a..9743788 100644
+--- a/app/payment.py
++++ b/app/payment.py
+@@ -1,5 +1,5 @@
+ def calculate_fee(amount):
+-    rate = 0.02
++    rate = 0.02 if amount < 1000 else 0.015
+     return round(amount * rate, 2)
+ 
+ 
+-- 
+2.47.1

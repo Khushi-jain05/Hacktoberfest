@@ -1,0 +1,28 @@
+{
+  "records": [
+    {
+      "commit": "038f1d63fa8de74999bd82b1662db14a0d77169f",
+      "env": "uat",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:23:20Z"
+    },
+    {
+      "commit": "7122598cbc03edb49bb68247306436c2248d4950",
+      "env": "dev",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:28:20Z"
+    },
+    {
+      "commit": "d543700b6f397482a4fb9506561cb1470a90366a",
+      "env": "uat",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:42:20Z"
+    }
+  ]
+}

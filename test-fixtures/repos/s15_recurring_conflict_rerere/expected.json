@@ -1,0 +1,22 @@
+{
+  "scenario": "s15_recurring_conflict_rerere",
+  "description": "The same conflict was already resolved (and tested) on uat. Merging dev into release hits it again; rerere replays the old resolution.",
+  "reproduce": [
+    "git checkout release",
+    "git merge dev",
+    "git rerere status; git rerere diff"
+  ],
+  "commits": {
+    "base": "0b603adcefd4a33d8c5cfa0c99e2050221c0acc0",
+    "uat_change": "a1405588f151825d04a4ff9fd9db54d42c439b3a",
+    "release_copy": "b50ac88507647959d3dec322bca79a71dfc73a71",
+    "dev_fix": "4cc3548f1dbfd164cbddf51c796e5257f7423108",
+    "uat_resolution_merge": "4a622569c5d24e3d2cd02079ec705c7660ece169"
+  },
+  "expected": {
+    "conflict": true,
+    "auto_resolved_by_rerere": true,
+    "should_report": "resolution was previously used in 4a622569c5d24e3d2cd02079ec705c7660ece169, which passed uat",
+    "note": "rr-cache lives in .git/ and is NOT cloned \u2014 a clone must fall back gracefully"
+  }
+}

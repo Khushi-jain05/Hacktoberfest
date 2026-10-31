@@ -1,0 +1,26 @@
+{
+  "scenario": "s29_github_squash_merge",
+  "description": "GitHub-style squash merge: PR #42 (2 commits, CI passed on its head) became ONE commit on dev with a new SHA and only '(#42)' in the subject. The branch is deleted; refs/pull/42/head remains, like on GitHub.",
+  "reproduce": [
+    "git log dev -1",
+    "git log refs/pull/42/head"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "pr_commit_1": "96039dbb74f085dd98cf35c7d5d5b169dd6204d5",
+    "pr_head": "363dd9a7cc75f5a172da597d644d59fccc15209f",
+    "squash": "42dce56f693cb8b4bc5f6b14460a80b158958279"
+  },
+  "expected": {
+    "match": {
+      "squash": "42dce56f693cb8b4bc5f6b14460a80b158958279",
+      "pr": 42,
+      "originals": [
+        "96039dbb74f085dd98cf35c7d5d5b169dd6204d5",
+        "363dd9a7cc75f5a172da597d644d59fccc15209f"
+      ],
+      "method": "'(#42)' reference + squash patch-id == PR range patch-id"
+    },
+    "status_of_squash": "dev-tested (as PR head; identical change on identical base)"
+  }
+}

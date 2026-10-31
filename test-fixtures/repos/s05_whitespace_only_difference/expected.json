@@ -1,0 +1,21 @@
+{
+  "scenario": "s05_whitespace_only_difference",
+  "description": "Backport differs only in whitespace and has no trailer. git patch-id ignores whitespace, so the match is exact.",
+  "reproduce": [
+    "git show 87cf1d98288b9cd3aaa5ed26ff5a06819fe9a051 | git patch-id --stable",
+    "git show b3e682202754e8b6230c32e84e1eed60a804fb14 | git patch-id --stable"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_fix": "87cf1d98288b9cd3aaa5ed26ff5a06819fe9a051",
+    "prod_copy": "b3e682202754e8b6230c32e84e1eed60a804fb14"
+  },
+  "expected": {
+    "match": {
+      "backport": "b3e682202754e8b6230c32e84e1eed60a804fb14",
+      "original": "87cf1d98288b9cd3aaa5ed26ff5a06819fe9a051",
+      "method": "patch-id",
+      "confidence": "exact"
+    }
+  }
+}

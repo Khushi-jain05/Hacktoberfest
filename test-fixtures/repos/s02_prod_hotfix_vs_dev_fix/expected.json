@@ -1,0 +1,42 @@
+{
+  "scenario": "s02_prod_hotfix_vs_dev_fix",
+  "description": "Core case. prod got a hotfix on the same line a dev fix changes. Backporting the dev fix to prod conflicts.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x b869bc07a4661451ffb491c1e2dce32adcc04286"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "b869bc07a4661451ffb491c1e2dce32adcc04286"
+  },
+  "expected": {
+    "conflict": true,
+    "files": [
+      "app/payment.py"
+    ],
+    "hunks": 1,
+    "ours": {
+      "branch": "prod",
+      "origin_commit": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+      "status": "production-tested",
+      "evidence": [
+        "test:production:pass",
+        "deploy:production"
+      ]
+    },
+    "theirs": {
+      "branch": "dev",
+      "origin_commit": "b869bc07a4661451ffb491c1e2dce32adcc04286",
+      "status": "tested-in-dev-only",
+      "evidence": [
+        "test:dev:pass"
+      ]
+    },
+    "must_not": [
+      "call the dev side production-tested",
+      "call the dev side uat-tested"
+    ],
+    "final_commit": "ordinary git commit; git fsck clean; no custom objects required to read it"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "scenario": "s17_chain_modified_midway",
+  "description": "Chain where the FIRST hop was hand-edited and the second hop was clean. prod copy is identical to the UAT version, not to the dev original.",
+  "reproduce": [
+    "git log prod -1 --format=%B"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "uat_msg_change": "038f1d63fa8de74999bd82b1662db14a0d77169f",
+    "prod_msg_copy": "fb44f92d3150ecbba72f9675c0824d05fabb7a1f",
+    "dev_original": "fef79a78f20a468616c9500a78d496f395dbc561",
+    "uat_modified_copy": "db2f56abacf93e0caa094233bb050003d39e624a",
+    "prod_copy": "42ace4920fa7894466a3a2a14d381a5d3888d047"
+  },
+  "expected": {
+    "links": [
+      {
+        "from": "42ace4920fa7894466a3a2a14d381a5d3888d047",
+        "to": "db2f56abacf93e0caa094233bb050003d39e624a",
+        "method": "patch-id + trailer",
+        "exact": true
+      },
+      {
+        "from": "db2f56abacf93e0caa094233bb050003d39e624a",
+        "to": "fef79a78f20a468616c9500a78d496f395dbc561",
+        "method": "trailer",
+        "exact": false
+      }
+    ],
+    "testing_that_covers_prod_code": [
+      "test:uat:pass (b)"
+    ],
+    "testing_that_does_NOT_cover_prod_code": [
+      "test:dev:pass (a) \u2014 different code"
+    ]
+  }
+}

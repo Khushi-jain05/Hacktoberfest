@@ -1,0 +1,24 @@
+{
+  "scenario": "s56_squash_merge_conflict",
+  "description": "'git merge --squash' conflict: there is NO MERGE_HEAD. The incoming commits are only listed in .git/SQUASH_MSG.",
+  "reproduce": [
+    "git checkout prod",
+    "git merge --squash dev",
+    "cat .git/SQUASH_MSG"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "b869bc07a4661451ffb491c1e2dce32adcc04286"
+  },
+  "expected": {
+    "operation": "merge or squash-merge",
+    "theirs": {
+      "origin_commit": "b869bc07a4661451ffb491c1e2dce32adcc04286",
+      "status": "dev"
+    },
+    "must_not": [
+      "crash or report 'no operation' because MERGE_HEAD is missing"
+    ]
+  }
+}

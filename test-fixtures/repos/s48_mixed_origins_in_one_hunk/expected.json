@@ -1,0 +1,31 @@
+{
+  "scenario": "s48_mixed_origins_in_one_hunk",
+  "description": "ONE hunk whose prod side mixes two commits: line 1 deployed, line 2 never deployed. The hunk is only as trustworthy as its weakest line.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x d37370772ac4577a88ce4a3f1d4a2a486f97380c",
+    "git blame prod -- app/payment.py"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_deployed_line": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "prod_undeployed_line": "db99eb8c8a9c498ea199f108d9186614fa954e19",
+    "dev_fix": "d37370772ac4577a88ce4a3f1d4a2a486f97380c"
+  },
+  "expected": {
+    "ours": {
+      "origin_commits": [
+        "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+        "db99eb8c8a9c498ea199f108d9186614fa954e19"
+      ],
+      "status": "unverified (weakest line wins)"
+    },
+    "theirs": {
+      "origin_commit": "d37370772ac4577a88ce4a3f1d4a2a486f97380c",
+      "status": "uat"
+    },
+    "must_not": [
+      "report only the first line's commit and call the hunk production"
+    ]
+  }
+}

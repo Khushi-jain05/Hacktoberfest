@@ -1,0 +1,25 @@
+{
+  "scenario": "s23_trailer_points_to_missing_commit",
+  "description": "prod commit says '(cherry picked from commit X)' but X was force-pushed away and garbage-collected. A test note for X still exists.",
+  "reproduce": [
+    "git log prod -1 --format=%B",
+    "git cat-file -e 32d47f3211332467950dd506419c066fd0bb9647   # fails",
+    "git notes --ref=tests list"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "missing_original": "32d47f3211332467950dd506419c066fd0bb9647",
+    "prod_copy": "92dbbb50cd07ca08894fe63ec834b6196724040c"
+  },
+  "expected": {
+    "link": {
+      "to": "32d47f3211332467950dd506419c066fd0bb9647",
+      "status": "original NOT in repository (rewritten/deleted)"
+    },
+    "evidence": "a dev pass is recorded for the missing SHA, but its content can't be verified",
+    "must_not": [
+      "crash on the missing object",
+      "silently drop the trailer"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "scenario": "s08_rename_then_conflict",
+  "description": "File renamed on dev; prod hotfix made in the old path. Forward-porting the hotfix conflicts in the NEW path.",
+  "reproduce": [
+    "git checkout dev",
+    "git cherry-pick -x bf0c56fe688ce046f05c163707b89f6c72cc11c9"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "rename": "e24c49bda70060830abf4621e1cd12b043133838",
+    "dev_fix": "9d161b82f4b5b14fd5dd189be6594376f5d21e25",
+    "prod_hotfix": "bf0c56fe688ce046f05c163707b89f6c72cc11c9"
+  },
+  "expected": {
+    "conflict": true,
+    "files": [
+      "app/billing.py"
+    ],
+    "ours": {
+      "origin_commit": "9d161b82f4b5b14fd5dd189be6594376f5d21e25",
+      "status": "tested-in-dev-only"
+    },
+    "theirs": {
+      "origin_commit": "bf0c56fe688ce046f05c163707b89f6c72cc11c9",
+      "origin_path": "app/payment.py",
+      "status": "production-deployed"
+    },
+    "must": [
+      "follow the rename when looking up history/blame"
+    ]
+  }
+}

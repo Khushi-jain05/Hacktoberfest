@@ -1,0 +1,45 @@
+{
+  "scenario": "r01_changelog_both_added",
+  "description": "Merging PR #12: both PRs added a line at the same spot in CHANGELOG.md. Safe to fix automatically: keep both entries.",
+  "reproduce": [
+    "git checkout -q main",
+    "git merge --no-edit pr-12"
+  ],
+  "commits": {
+    "base": "0adeae814d6f3a3c683af8dae4f1fca8e20a847e",
+    "pr_commit": "6863967b9358735298637f442d995db716731bd8",
+    "main_commit": "34a94e844e1207db882c191ff490cd10cbc74262"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "resolved",
+      "operation": "merge",
+      "parents": 2,
+      "tests": true,
+      "setup": [
+        "git checkout -q main",
+        "git merge --no-edit pr-12"
+      ],
+      "contains": {
+        "CHANGELOG.md": [
+          "- Add amount cap (#11)",
+          "- Fix negative refunds (#12)",
+          "- Initial release"
+        ],
+        "app/payment.py": [
+          "max(amount - fee, 0)",
+          "amount > 1_000_000"
+        ]
+      },
+      "exactly_once": {
+        "CHANGELOG.md": [
+          "- Add amount cap (#11)",
+          "- Fix negative refunds (#12)"
+        ]
+      },
+      "solution": {
+        "CHANGELOG.md": "# Changelog\n\n## Unreleased\n\n- Add amount cap (#11)\n- Fix negative refunds (#12)\n- Initial release\n"
+      }
+    }
+  }
+}

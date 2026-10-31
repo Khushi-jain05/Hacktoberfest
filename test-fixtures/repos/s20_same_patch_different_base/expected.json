@@ -1,0 +1,27 @@
+{
+  "scenario": "s20_same_patch_different_base",
+  "description": "Clean cherry-pick with IDENTICAL patch-id, but the fix calls normalize(), which is defined in an earlier dev commit that was never backported. prod is now broken.",
+  "reproduce": [
+    "git checkout prod",
+    "python3 -c \"import app.payment as m; m.refund(10, 1)\"   # NameError"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_helper": "d36cdf05fe8598936b9d72b0c6f8b82f2ae8aa44",
+    "dev_fix": "aa9cedcff502a5095ffeda9ca5c6510ced32b5f1",
+    "prod_copy": "f51f228ab8cb313f45b1e0a13dcfcc258105175e"
+  },
+  "expected": {
+    "match": {
+      "backport": "f51f228ab8cb313f45b1e0a13dcfcc258105175e",
+      "original": "aa9cedcff502a5095ffeda9ca5c6510ced32b5f1",
+      "method": "patch-id",
+      "exact": true
+    },
+    "testing": "dev test of the fix ran on a base that HAD normalize(); it does not cover prod",
+    "should_flag": "missing prerequisite d36cdf05fe8598936b9d72b0c6f8b82f2ae8aa44 (defines normalize)",
+    "must_not": [
+      "transfer 'tested' just because patch-ids match"
+    ]
+  }
+}

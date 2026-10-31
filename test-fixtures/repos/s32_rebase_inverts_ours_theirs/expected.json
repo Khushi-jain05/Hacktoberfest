@@ -1,0 +1,26 @@
+{
+  "scenario": "s32_rebase_inverts_ours_theirs",
+  "description": "Rebasing 'feature' onto dev conflicts. During a rebase, HEAD/'ours' is the UPSTREAM (dev), and 'theirs' is YOUR commit being replayed \u2014 the reverse of a merge.",
+  "reproduce": [
+    "git checkout feature",
+    "git rebase dev"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "feature_commit": "32d47f3211332467950dd506419c066fd0bb9647",
+    "dev_commit": "d643474f6d14ee4536ed1a39d83f445177523aaf"
+  },
+  "expected": {
+    "HEAD_side": {
+      "origin_commit": "d643474f6d14ee4536ed1a39d83f445177523aaf",
+      "status": "uat-tested + production-deployed"
+    },
+    "incoming_side": {
+      "origin_commit": "32d47f3211332467950dd506419c066fd0bb9647",
+      "status": "tested-in-dev-only"
+    },
+    "must_not": [
+      "label the feature commit as 'ours' because the user started on feature"
+    ]
+  }
+}

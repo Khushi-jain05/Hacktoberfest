@@ -1,0 +1,22 @@
+{
+  "scenario": "s21_rebased_after_test",
+  "description": "A commit was tested, then the branch was rebased: the tested SHA is no longer on any branch, and the new SHA has no record of its own.",
+  "reproduce": [
+    "git log feature -1",
+    "git notes --ref=tests show 0e5e055884a234d821e69a3e8e40ac00904bec74",
+    "git notes --ref=tests show 75b3f0cc68896a36e095fa160251f6c4ac31d507   # none"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "tested_before_rebase": "0e5e055884a234d821e69a3e8e40ac00904bec74",
+    "dev_change": "3e03c01fae811af19d1b3d094ee81f0cf5286901",
+    "after_rebase": "75b3f0cc68896a36e095fa160251f6c4ac31d507"
+  },
+  "expected": {
+    "status_of_after_rebase": "tested BEFORE rebase (same patch-id as the tested commit); base changed",
+    "must_not": [
+      "say 'never tested'",
+      "say 'tested' with no caveat"
+    ]
+  }
+}

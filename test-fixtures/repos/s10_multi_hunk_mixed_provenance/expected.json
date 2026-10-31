@@ -1,0 +1,36 @@
+{
+  "scenario": "s10_multi_hunk_mixed_provenance",
+  "description": "Two conflict hunks in one file. On the prod side, hunk 1 comes from a deployed hotfix but hunk 2 comes from a commit that sits on prod and was NEVER deployed.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x 24187a6f1f0df168bfd4d3aa578fa250e90cbdcf"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_deployed": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "prod_undeployed": "b58b3e334e8ff626a1981706e3f1e741b16cb048",
+    "dev_fix": "24187a6f1f0df168bfd4d3aa578fa250e90cbdcf"
+  },
+  "expected": {
+    "conflict": true,
+    "files": [
+      "app/payment.py"
+    ],
+    "hunks": 2,
+    "hunk_1_calculate_fee": {
+      "ours_origin": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+      "ours_status": "production-tested",
+      "theirs_origin": "24187a6f1f0df168bfd4d3aa578fa250e90cbdcf",
+      "theirs_status": "uat-tested"
+    },
+    "hunk_2_refund": {
+      "ours_origin": "b58b3e334e8ff626a1981706e3f1e741b16cb048",
+      "ours_status": "unverified",
+      "theirs_origin": "24187a6f1f0df168bfd4d3aa578fa250e90cbdcf",
+      "theirs_status": "uat-tested"
+    },
+    "must": [
+      "give provenance per hunk (line-level blame), not per branch"
+    ]
+  }
+}

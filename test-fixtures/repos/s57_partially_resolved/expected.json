@@ -1,0 +1,23 @@
+{
+  "scenario": "s57_partially_resolved",
+  "description": "Two files conflict; the developer already resolved app/legacy.py (git add). The tool is run halfway through the resolution.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x 1930c007cdbd61e28e4c52e4ddacf7a3d11fe0aa",
+    "git checkout --theirs app/legacy.py && git add app/legacy.py"
+  ],
+  "commits": {
+    "base": "1e8788234748671ad27b891f642d900a914ecff1",
+    "prod_hotfix": "2278a0cf24b2c1a805fd0f645d29a41a803bbdeb",
+    "dev_fix": "1930c007cdbd61e28e4c52e4ddacf7a3d11fe0aa"
+  },
+  "expected": {
+    "still_conflicted": [
+      "app/payment.py"
+    ],
+    "must_not": [
+      "report app/legacy.py as still conflicted",
+      "lose the user's staged resolution"
+    ]
+  }
+}

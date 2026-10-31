@@ -1,0 +1,26 @@
+{
+  "scenario": "s28_evil_merge",
+  "description": "The conflicting dev line was introduced INSIDE a merge commit (an 'evil merge'), not by any regular commit.",
+  "reproduce": [
+    "git checkout prod",
+    "git merge dev",
+    "git show --cc da4592bf1f6f117cb80b51c7092fbc490d426429"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "feature_commit": "3180380351dc575073d06af799d547928e8aeff0",
+    "evil_merge": "da4592bf1f6f117cb80b51c7092fbc490d426429",
+    "prod_hotfix": "3c17c8aa550f0cc584d4e8c1af53d32317e57bdd"
+  },
+  "expected": {
+    "theirs": {
+      "origin_commit": "da4592bf1f6f117cb80b51c7092fbc490d426429",
+      "kind": "merge commit (change not in either parent)",
+      "status": "unverified"
+    },
+    "must_not": [
+      "attribute the line to 3180380351dc575073d06af799d547928e8aeff0",
+      "crash on a merge-commit origin"
+    ]
+  }
+}

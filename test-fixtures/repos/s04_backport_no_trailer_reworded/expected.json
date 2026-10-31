@@ -1,0 +1,24 @@
+{
+  "scenario": "s04_backport_no_trailer_reworded",
+  "description": "Same change re-typed by hand on prod: different author, message, variable name. No trailer, patch-id differs. Only fuzzy matching can link them.",
+  "reproduce": [
+    "git log --all --oneline"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_change": "ae1a28104e8006f839b86c170008ff1220f9942b",
+    "prod_retyped": "4487c775799df99b65ced4df2d0f1dc4bf6bc3c3"
+  },
+  "expected": {
+    "match": {
+      "backport": "4487c775799df99b65ced4df2d0f1dc4bf6bc3c3",
+      "original": "ae1a28104e8006f839b86c170008ff1220f9942b",
+      "method": "similarity",
+      "confidence": "probable (must NOT be reported as certain)"
+    },
+    "must_not": [
+      "claim an exact/verified match",
+      "silently ignore the relationship"
+    ]
+  }
+}

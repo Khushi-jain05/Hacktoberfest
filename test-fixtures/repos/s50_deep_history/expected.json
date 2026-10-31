@@ -1,0 +1,25 @@
+{
+  "scenario": "s50_deep_history",
+  "description": "The dev line's origin is 5000 commits deep; CI only ran on the dev tip. Any per-commit subprocess loop will time out.",
+  "reproduce": [
+    "git checkout prod",
+    "git merge dev"
+  ],
+  "commits": {
+    "base": "bc92fb11d5e9eefdc00cb109d35493cd0067efac",
+    "deep_origin": "d68fdc35f60bc4f81ac4bcd49993c5f74d53f7e6",
+    "dev_tip_tested": "e94850702d676b56ada8d353c9c44849a33664a6",
+    "prod_hotfix": "62eda746e65d6d375912289b9b128128a7fb7e18"
+  },
+  "expected": {
+    "theirs": {
+      "origin_commit": "d68fdc35f60bc4f81ac4bcd49993c5f74d53f7e6",
+      "status": "dev (via tested tip, line unchanged since)"
+    },
+    "ours": {
+      "origin_commit": "62eda746e65d6d375912289b9b128128a7fb7e18",
+      "status": "production"
+    },
+    "performance": "must answer within 60 s"
+  }
+}

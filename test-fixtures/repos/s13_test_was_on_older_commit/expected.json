@@ -1,0 +1,29 @@
+{
+  "scenario": "s13_test_was_on_older_commit",
+  "description": "uat has a passing test, but on an OLDER commit. The line in conflict was last changed by a later, untested commit.",
+  "reproduce": [
+    "git checkout prod",
+    "git merge uat"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "uat_tested": "5ac3fdd611378c005620cbf66c4768d1d47c873d",
+    "uat_untested_tip": "62c8e18a000ef6bcf2ba886abda004199b951147",
+    "prod_hotfix": "bf0c56fe688ce046f05c163707b89f6c72cc11c9"
+  },
+  "expected": {
+    "conflict": true,
+    "theirs": {
+      "origin_commit": "62c8e18a000ef6bcf2ba886abda004199b951147",
+      "status": "unverified",
+      "note": "older commit 5ac3fdd611378c005620cbf66c4768d1d47c873d was tested, but its version of this line was replaced"
+    },
+    "ours": {
+      "origin_commit": "bf0c56fe688ce046f05c163707b89f6c72cc11c9",
+      "status": "production-deployed"
+    },
+    "must_not": [
+      "mark the uat side as tested because the uat branch has a passing run"
+    ]
+  }
+}

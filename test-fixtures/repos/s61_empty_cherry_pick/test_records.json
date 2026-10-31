@@ -1,0 +1,20 @@
+{
+  "records": [
+    {
+      "commit": "f691aeda1e0e04b91e11f2e4d2ca1bfeb77fb3e6",
+      "env": "dev",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:22:20Z"
+    },
+    {
+      "commit": "a7b877cb419dcab036fd4964d1ed296d6c32aabf",
+      "env": "production",
+      "kind": "deploy",
+      "result": "success",
+      "source": "deploy-log",
+      "at": "2026-09-21T14:27:20Z"
+    }
+  ]
+}

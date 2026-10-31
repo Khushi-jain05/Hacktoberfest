@@ -1,0 +1,25 @@
+{
+  "scenario": "s30_partial_backport",
+  "description": "Only one of the two files changed by the original was backported.",
+  "reproduce": [
+    "git show --stat 55acfd3c604398d8b90d40238ea97db2ce599eb7",
+    "git show --stat 6cbadbbf5e0afd09aa6d883c468354030b86da81"
+  ],
+  "commits": {
+    "base": "1e8788234748671ad27b891f642d900a914ecff1",
+    "original": "55acfd3c604398d8b90d40238ea97db2ce599eb7",
+    "partial_backport": "6cbadbbf5e0afd09aa6d883c468354030b86da81"
+  },
+  "expected": {
+    "match": {
+      "backport": "6cbadbbf5e0afd09aa6d883c468354030b86da81",
+      "original": "55acfd3c604398d8b90d40238ea97db2ce599eb7",
+      "kind": "partial (1 of 2 files)",
+      "per_file": {
+        "app/payment.py": "identical",
+        "app/legacy.py": "not backported"
+      }
+    },
+    "testing": "uat test covered the full change, not this subset"
+  }
+}

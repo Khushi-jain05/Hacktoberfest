@@ -1,0 +1,12 @@
+{
+  "records": [
+    {
+      "commit": "0e5e055884a234d821e69a3e8e40ac00904bec74",
+      "env": "dev",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:23:20Z"
+    }
+  ]
+}

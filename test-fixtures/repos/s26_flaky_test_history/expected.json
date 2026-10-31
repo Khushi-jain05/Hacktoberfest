@@ -1,0 +1,27 @@
+{
+  "scenario": "s26_flaky_test_history",
+  "description": "The dev side was tested three times in uat: pass, FAIL, pass.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x 26daa5b30173a91263cda5c373840a82e3054743"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "26daa5b30173a91263cda5c373840a82e3054743"
+  },
+  "expected": {
+    "theirs": {
+      "origin_commit": "26daa5b30173a91263cda5c373840a82e3054743",
+      "status": "uat: inconsistent (2 pass / 1 fail) \u2014 possibly flaky"
+    },
+    "ours": {
+      "origin_commit": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+      "status": "production-deployed"
+    },
+    "must_not": [
+      "report only the latest result",
+      "report only 'pass'"
+    ]
+  }
+}

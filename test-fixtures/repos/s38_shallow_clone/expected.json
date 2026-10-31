@@ -1,0 +1,28 @@
+{
+  "scenario": "s38_shallow_clone",
+  "description": "Use shallow/ \u2014 a --depth 2 clone. The prod line's real origin (the hotfix) is beyond the shallow boundary, so blame wrongly points at the boundary commit.",
+  "reproduce": [
+    "cd shallow",
+    "git rev-parse --is-shallow-repository",
+    "git checkout prod",
+    "git cherry-pick -x 574036bbf34178273cc99b515cc5f1c46fa3b6ef",
+    "# fix: git fetch --unshallow"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix_beyond_boundary": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "prod_boundary": "dc8880ad759f8c4c9bc1ffb3ab846b74df16f927",
+    "prod_tip": "ec751886e9f19c0570807ad787bca2db1a294400",
+    "dev_fix": "574036bbf34178273cc99b515cc5f1c46fa3b6ef"
+  },
+  "expected": {
+    "ours": {
+      "origin": "UNKNOWN \u2014 beyond shallow boundary",
+      "should_suggest": "git fetch --unshallow"
+    },
+    "must_not": [
+      "attribute the line to boundary commit dc8880ad759f8c4c9bc1ffb3ab846b74df16f927",
+      "crash on missing parents"
+    ]
+  }
+}

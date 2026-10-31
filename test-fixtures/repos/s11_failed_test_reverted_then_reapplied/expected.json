@@ -1,0 +1,31 @@
+{
+  "scenario": "s11_failed_test_reverted_then_reapplied",
+  "description": "uat tried a fix (failed test), reverted it, then landed v2 (passed). Backporting v2 to prod conflicts with a prod hotfix.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x c9d3c2b84e3df18b70badfb03ea316e8cffb57f3"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "uat_v1_failed": "9661b6b95ca9e40f14de98fbf36d5cd815d2ef8b",
+    "uat_revert": "7e2ae9fec22ae0883f9a19daea663b17130456b2",
+    "uat_v2": "c9d3c2b84e3df18b70badfb03ea316e8cffb57f3",
+    "prod_hotfix": "d109224ab46ff0ebe0026ab931c1593ecddd52e5"
+  },
+  "expected": {
+    "conflict": true,
+    "theirs": {
+      "origin_commit": "c9d3c2b84e3df18b70badfb03ea316e8cffb57f3",
+      "status": "uat-tested (pass)"
+    },
+    "ours": {
+      "origin_commit": "d109224ab46ff0ebe0026ab931c1593ecddd52e5",
+      "status": "production-deployed, no test record"
+    },
+    "should_surface": "v1 (9661b6b95ca9e40f14de98fbf36d5cd815d2ef8b) failed in uat and was reverted",
+    "must_not": [
+      "attribute v1's failing test to v2",
+      "attribute v2's pass to v1"
+    ]
+  }
+}

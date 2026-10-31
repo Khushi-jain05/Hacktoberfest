@@ -1,0 +1,19 @@
+{
+  "scenario": "s49_reverted_fix_reintroduced_by_merge",
+  "description": "NO conflict \u2014 that's the trap. The fix failed in production and was reverted there, but dev still has the original. 'git merge dev' silently brings the bad fix back.",
+  "reproduce": [
+    "git checkout prod",
+    "git merge dev   # clean, re-introduces the reverted change"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_fix": "f691aeda1e0e04b91e11f2e4d2ca1bfeb77fb3e6",
+    "prod_copy": "28c0c6f6b3a8b789adb44d69d48a9ab00ba68572",
+    "prod_revert": "341de83eeec5f049149097eb825b607334a2c605"
+  },
+  "expected": {
+    "conflict": false,
+    "dev_fix_status": "failed / rolled-back (its production copy failed and was reverted)",
+    "should_warn": "merging dev re-introduces f691aeda1e0e04b91e11f2e4d2ca1bfeb77fb3e6, equivalent of reverted 28c0c6f6b3a8b789adb44d69d48a9ab00ba68572"
+  }
+}

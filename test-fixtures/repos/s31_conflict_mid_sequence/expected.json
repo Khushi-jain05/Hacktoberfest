@@ -1,0 +1,40 @@
+{
+  "scenario": "s31_conflict_mid_sequence",
+  "description": "Backporting a RANGE of 3 commits: the first applies, the second conflicts, the third is still pending in .git/sequencer/todo.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x 9904b0c3d88070e8e7f9918cb30b797852c8bbba^..3c80714c77081286ae811fb3daaca08a74e1df0f"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "a": "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+    "b_conflicts": "6e450e253d27aed78f6fc90cfc2ffeb260c954e9",
+    "c_pending": "3c80714c77081286ae811fb3daaca08a74e1df0f",
+    "prod_hotfix": "3c17c8aa550f0cc584d4e8c1af53d32317e57bdd"
+  },
+  "expected": {
+    "state": {
+      "applied": [
+        "9904b0c3d88070e8e7f9918cb30b797852c8bbba"
+      ],
+      "in_conflict": "6e450e253d27aed78f6fc90cfc2ffeb260c954e9",
+      "pending": [
+        "3c80714c77081286ae811fb3daaca08a74e1df0f"
+      ]
+    },
+    "conflict": {
+      "ours": {
+        "origin_commit": "3c17c8aa550f0cc584d4e8c1af53d32317e57bdd",
+        "status": "production-deployed"
+      },
+      "theirs": {
+        "origin_commit": "6e450e253d27aed78f6fc90cfc2ffeb260c954e9",
+        "status": "tested-in-dev-only"
+      }
+    },
+    "must": [
+      "read CHERRY_PICK_HEAD, not assume the range tip",
+      "survive 'git cherry-pick --continue' into the next commit"
+    ]
+  }
+}

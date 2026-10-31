@@ -1,0 +1,25 @@
+{
+  "scenario": "s58_ambiguous_short_sha",
+  "description": "The backport message says 'Backport of f691a', but TWO commits start with that prefix (git rev-parse refuses: ambiguous). Only the code tells which one is meant.",
+  "reproduce": [
+    "git rev-parse f691a   # error: ambiguous",
+    "git log prod -1 --format=%B"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_fix": "f691aeda1e0e04b91e11f2e4d2ca1bfeb77fb3e6",
+    "decoy": "f691a1fbb52113e505753102715947f76bcb6e37",
+    "prod_copy": "8de40ba61dccb2a79af35daf38cf34df59f911b4"
+  },
+  "expected": {
+    "match": {
+      "backport": "8de40ba61dccb2a79af35daf38cf34df59f911b4",
+      "original": "f691aeda1e0e04b91e11f2e4d2ca1bfeb77fb3e6",
+      "exact": true
+    },
+    "must_not": [
+      "match the decoy f691a1fbb52113e505753102715947f76bcb6e37",
+      "crash on the ambiguous prefix"
+    ]
+  }
+}

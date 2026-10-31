@@ -1,0 +1,24 @@
+{
+  "scenario": "s59_noisy_provenance_records",
+  "description": "The dev commit's note mixes good and bad data: a uat pass, a FAILED production deploy, an unknown env, an unknown record kind, and a line that isn't JSON.",
+  "reproduce": [
+    "git checkout prod",
+    "git notes --ref=tests show 26daa5b30173a91263cda5c373840a82e3054743",
+    "git cherry-pick -x 26daa5b30173a91263cda5c373840a82e3054743"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "26daa5b30173a91263cda5c373840a82e3054743"
+  },
+  "expected": {
+    "theirs": {
+      "origin_commit": "26daa5b30173a91263cda5c373840a82e3054743",
+      "status": "uat (the production deploy FAILED)"
+    },
+    "must_not": [
+      "crash on the malformed line",
+      "count a failed deploy as production"
+    ]
+  }
+}

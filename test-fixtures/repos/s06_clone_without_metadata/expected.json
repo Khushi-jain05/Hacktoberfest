@@ -1,0 +1,28 @@
+{
+  "scenario": "s06_clone_without_metadata",
+  "description": "Same history as s02, but use clone/ \u2014 a plain git clone of repo/. Clones do not fetch refs/notes/*, and the sidecar test_records.json belongs to repo/ only.",
+  "reproduce": [
+    "cd clone",
+    "git notes --ref=tests list   # empty",
+    "git checkout prod",
+    "git cherry-pick -x b869bc07a4661451ffb491c1e2dce32adcc04286",
+    "# then: git fetch origin 'refs/notes/*:refs/notes/*' and re-run"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "b869bc07a4661451ffb491c1e2dce32adcc04286"
+  },
+  "expected": {
+    "in_clone_before_fetching_notes": {
+      "ours": "provenance UNKNOWN (not 'untested')",
+      "theirs": "provenance UNKNOWN (not 'untested')",
+      "should_suggest": "fetching refs/notes/* from origin"
+    },
+    "in_clone_after_fetching_notes": "same answer as s02",
+    "must_not": [
+      "crash",
+      "report unknown as untested/failed"
+    ]
+  }
+}

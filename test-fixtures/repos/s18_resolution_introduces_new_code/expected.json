@@ -1,0 +1,31 @@
+{
+  "scenario": "s18_resolution_introduces_new_code",
+  "description": "The s02 conflict was resolved by WRITING NEW CODE (0.025 from ours + tiers from theirs). Both inputs had test evidence; the result has none.",
+  "reproduce": [
+    "git show a9426467c40cd5d1ad829f9ac3ebd13212041391",
+    "# re-create the conflict: git checkout --detach 92f89fc201d78f92d18cc374d30c97916b5d7daa && git cherry-pick -x b869bc07a4661451ffb491c1e2dce32adcc04286"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "b869bc07a4661451ffb491c1e2dce32adcc04286",
+    "resolution": "a9426467c40cd5d1ad829f9ac3ebd13212041391"
+  },
+  "expected": {
+    "resolved_line_status": "UNVERIFIED \u2014 new code written during resolution",
+    "inputs": {
+      "ours": "production-tested",
+      "theirs": "tested-in-dev-only"
+    },
+    "final_commit": {
+      "parents": 1,
+      "keeps_trailer": true,
+      "git_fsck": "clean",
+      "provenance_trailers_if_added": "must parse with git interpret-trailers --parse"
+    },
+    "must_not": [
+      "inherit 'production-tested' for the resolved line",
+      "inherit theirs' dev test either"
+    ]
+  }
+}

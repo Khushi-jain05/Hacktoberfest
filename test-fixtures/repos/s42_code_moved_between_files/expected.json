@@ -1,0 +1,27 @@
+{
+  "scenario": "s42_code_moved_between_files",
+  "description": "dev MOVED refund() into another file; prod hot-fixed it in the old place. git sees 'deleted vs modified lines' \u2014 the hotfix would be silently lost if 'ours' is taken.",
+  "reproduce": [
+    "git checkout dev",
+    "git merge prod",
+    "git log -S'def refund' --oneline --all"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_move": "d43bebaf1d8a0c77045eca689219609448fe5834",
+    "prod_hotfix": "9775da893bd132d964955ee34dacb48274787598"
+  },
+  "expected": {
+    "ours": {
+      "origin_commit": "d43bebaf1d8a0c77045eca689219609448fe5834",
+      "status": "dev",
+      "note": "lines deleted here because they moved"
+    },
+    "theirs": {
+      "origin_commit": "9775da893bd132d964955ee34dacb48274787598",
+      "status": "production"
+    },
+    "moved_to": "app/refunds.py",
+    "should_warn": "re-apply the hotfix in app/refunds.py"
+  }
+}

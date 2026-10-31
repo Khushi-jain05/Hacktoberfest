@@ -1,0 +1,42 @@
+{
+  "scenario": "r08_code_moved_needs_reapply",
+  "description": "main moved refund() to app/refunds.py; the PR hot-fixed it in the old place. Taking either side loses something (tests fail). Correct fix: keep the move AND re-apply the hotfix in app/refunds.py \u2014 or refuse and explain.",
+  "reproduce": [
+    "git checkout -q main",
+    "git merge --no-edit pr-30"
+  ],
+  "commits": {
+    "base": "3abb6a5e0223b395ce82b34273e1b47c9b09bc2a",
+    "pr_hotfix": "c567b1c181a57489bd210598cf034fde69c98941",
+    "main_move": "d9dd5955067c4a7b8f713efc1c6ab7519b1520b0"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "either",
+      "operation": "merge",
+      "parents": 2,
+      "tests": true,
+      "unsafe_files": [
+        "app/payment.py"
+      ],
+      "setup": [
+        "git checkout -q main",
+        "git merge --no-edit pr-30"
+      ],
+      "contains": {
+        "app/refunds.py": [
+          "max(amount - fee, 0)"
+        ]
+      },
+      "not_contains": {
+        "app/payment.py": [
+          "def refund"
+        ]
+      },
+      "solution": {
+        "app/payment.py": "def calculate_fee(amount):\n    rate = 0.02\n    return round(amount * rate, 2)\n\n\ndef validate(amount):\n    if amount <= 0:\n        raise ValueError(\"amount must be positive\")\n    return True\n",
+        "app/refunds.py": "def refund(amount, fee):\n    return max(amount - fee, 0)\n"
+      }
+    }
+  }
+}

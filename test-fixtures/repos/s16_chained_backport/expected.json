@@ -1,0 +1,29 @@
+{
+  "scenario": "s16_chained_backport",
+  "description": "dev -> uat -> prod, where prod picked the UAT copy (not the dev original). The prod commit carries TWO cherry-pick trailers.",
+  "reproduce": [
+    "git log prod -1 --format=%B"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_original": "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+    "uat_copy": "9c09ced70d416639a902a80cb4e44481152489b2",
+    "prod_copy": "702844758be3151e7be2c1d188a7cdf49a9de5bb"
+  },
+  "expected": {
+    "chain": [
+      "702844758be3151e7be2c1d188a7cdf49a9de5bb",
+      "9c09ced70d416639a902a80cb4e44481152489b2",
+      "9904b0c3d88070e8e7f9918cb30b797852c8bbba"
+    ],
+    "evidence_for_prod_copy": [
+      "test:dev:pass (via a)",
+      "test:uat:pass (via b)",
+      "deploy:production"
+    ],
+    "must": [
+      "follow trailers transitively",
+      "parse multiple trailers in one message"
+    ]
+  }
+}

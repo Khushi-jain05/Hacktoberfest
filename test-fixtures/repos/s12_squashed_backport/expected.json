@@ -1,0 +1,27 @@
+{
+  "scenario": "s12_squashed_backport",
+  "description": "Three dev commits squashed into one prod commit (Django-style 'Backport of' lines).",
+  "reproduce": [
+    "git log prod -1 --format=%B",
+    "git diff ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d 3c80714c77081286ae811fb3daaca08a74e1df0f | git patch-id --stable"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_a": "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+    "dev_b": "6e450e253d27aed78f6fc90cfc2ffeb260c954e9",
+    "dev_c": "3c80714c77081286ae811fb3daaca08a74e1df0f",
+    "prod_squash": "10b1e8b333afebd99469f2b56f1a3658c2cc8ac0"
+  },
+  "expected": {
+    "match": {
+      "backport": "10b1e8b333afebd99469f2b56f1a3658c2cc8ac0",
+      "originals": [
+        "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+        "6e450e253d27aed78f6fc90cfc2ffeb260c954e9",
+        "3c80714c77081286ae811fb3daaca08a74e1df0f"
+      ],
+      "method": "message references + range patch-id equals squash patch-id"
+    },
+    "testing": "uat test was on the tip (dev_c) only; a and b alone were never tested"
+  }
+}

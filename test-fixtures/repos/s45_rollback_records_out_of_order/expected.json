@@ -1,0 +1,25 @@
+{
+  "scenario": "s45_rollback_records_out_of_order",
+  "description": "Same rollback story as s25, but the records were appended out of order. Only the 'at' timestamps tell the truth: p1 (Oct 1) -> p2 (Oct 2) -> p1 again (Oct 3).",
+  "reproduce": [
+    "git checkout prod",
+    "git notes --ref=tests show 3a8b8db39a4632c9da656c89a3786ae503a9a8ca",
+    "git cherry-pick -x d45747bc03e61df22969250a179d0f6626601a50"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "p1": "3a8b8db39a4632c9da656c89a3786ae503a9a8ca",
+    "p2_rolled_back": "1274d8f4e8e58254db6701555d03d7b6e6c88383",
+    "dev_fix": "d45747bc03e61df22969250a179d0f6626601a50"
+  },
+  "expected": {
+    "currently_in_production": "3a8b8db39a4632c9da656c89a3786ae503a9a8ca",
+    "ours": {
+      "origin_commit": "1274d8f4e8e58254db6701555d03d7b6e6c88383",
+      "status": "rolled-back"
+    },
+    "must_not": [
+      "order records by position in the note instead of by 'at'"
+    ]
+  }
+}

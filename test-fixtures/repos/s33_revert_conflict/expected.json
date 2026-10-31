@@ -1,0 +1,24 @@
+{
+  "scenario": "s33_revert_conflict",
+  "description": "Reverting an old commit whose line was changed again later.",
+  "reproduce": [
+    "git checkout prod",
+    "git revert 615b612a6022e3d08cdded6b2e12a87a2168b04d"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "reverted": "615b612a6022e3d08cdded6b2e12a87a2168b04d",
+    "later_change": "f6ca894e812afa81d7503cf97317b154ff76506f"
+  },
+  "expected": {
+    "ours": {
+      "origin_commit": "f6ca894e812afa81d7503cf97317b154ff76506f",
+      "status": "production-tested, currently deployed"
+    },
+    "theirs": {
+      "meaning": "undo of 615b612a6022e3d08cdded6b2e12a87a2168b04d",
+      "restores_text_from": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d"
+    },
+    "should_warn": "reverting would undo part of what is running in production"
+  }
+}

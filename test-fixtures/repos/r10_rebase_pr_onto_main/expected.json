@@ -1,0 +1,34 @@
+{
+  "scenario": "r10_rebase_pr_onto_main",
+  "description": "'Rebase and merge' style PR: rebasing pr-7 onto main conflicts with a formatter commit. The tool must resolve AND finish the rebase (HEAD back on pr-7, on top of main). Remember: during a rebase 'ours' is main.",
+  "reproduce": [
+    "git checkout -q pr-7",
+    "git rebase main"
+  ],
+  "commits": {
+    "base": "3abb6a5e0223b395ce82b34273e1b47c9b09bc2a",
+    "pr_commit": "7f7e6403b288979089212464cb68c339c215195d",
+    "formatter": "bc7d4db059fa81deacf1aaaf26f45e78626d7136"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "resolved",
+      "operation": "rebase",
+      "parents": 1,
+      "tests": true,
+      "branch": "pr-7",
+      "setup": [
+        "git checkout -q pr-7",
+        "git rebase main"
+      ],
+      "contains": {
+        "app/payment.py": [
+          "if amount < 1000 else 0.015"
+        ]
+      },
+      "solution": {
+        "app/payment.py": "def calculate_fee(amount):\n    rate = 0.02 if amount < 1000 else 0.015\n    return round(amount * rate, 2)\n\n\ndef validate(amount):\n    if amount <= 0:\n        raise ValueError(\"amount must be positive\")\n    return True\n\n\ndef refund(amount, fee):\n    return amount - fee\n"
+      }
+    }
+  }
+}

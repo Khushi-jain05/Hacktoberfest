@@ -1,0 +1,23 @@
+{
+  "scenario": "s27_test_on_descendant",
+  "description": "CI tested only the uat tip. The conflicted line comes from an earlier commit, but it is unchanged in the tested tip. (Opposite of s13.)",
+  "reproduce": [
+    "git checkout prod",
+    "git merge uat"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "uat_line_origin": "5ac3fdd611378c005620cbf66c4768d1d47c873d",
+    "uat_tested_tip": "f27edbdc6831df05fb57b6e5e6dc791d595086ac",
+    "prod_hotfix": "bf0c56fe688ce046f05c163707b89f6c72cc11c9"
+  },
+  "expected": {
+    "theirs": {
+      "origin_commit": "5ac3fdd611378c005620cbf66c4768d1d47c873d",
+      "status": "uat-tested via descendant f27edbdc6831df05fb57b6e5e6dc791d595086ac (line identical in tested tree)"
+    },
+    "must_not": [
+      "call theirs untested just because the origin commit has no direct record"
+    ]
+  }
+}

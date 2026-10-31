@@ -1,0 +1,20 @@
+{
+  "scenario": "s55_conflict_in_linked_worktree",
+  "description": "The conflict happens in a linked worktree, where .git is a FILE pointing elsewhere and CHERRY_PICK_HEAD lives in .git/worktrees/<name>/.",
+  "reproduce": [
+    "git worktree add ../wt prod",
+    "cd ../wt",
+    "git cherry-pick -x b869bc07a4661451ffb491c1e2dce32adcc04286"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "b869bc07a4661451ffb491c1e2dce32adcc04286"
+  },
+  "expected": {
+    "same_answer_as": "s02",
+    "must": [
+      "use git rev-parse --git-dir / --git-path, never hard-code .git/"
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "scenario": "s36_rename_rename_and_add_add",
+  "description": "Both sides renamed the same file to DIFFERENT names, and both added app/config.py with different contents.",
+  "reproduce": [
+    "git checkout dev",
+    "git merge prod",
+    "git status"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_commit": "00ecab32f1ceaa0f91c1c9e182b39860f9d46b04",
+    "prod_commit": "30f0ee04c1af08ad733927c1f36916e9b994670e"
+  },
+  "expected": {
+    "unmerged_paths": [
+      "app/billing.py",
+      "app/config.py",
+      "app/fees.py",
+      "app/payment.py"
+    ],
+    "kinds": {
+      "app/payment.py": "rename/rename (billing.py vs fees.py)",
+      "app/config.py": "add/add"
+    },
+    "ours": {
+      "origin_commit": "00ecab32f1ceaa0f91c1c9e182b39860f9d46b04",
+      "status": "tested-in-dev-only"
+    },
+    "theirs": {
+      "origin_commit": "30f0ee04c1af08ad733927c1f36916e9b994670e",
+      "status": "production-deployed"
+    }
+  }
+}

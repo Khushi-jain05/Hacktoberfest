@@ -1,0 +1,42 @@
+{
+  "scenario": "r02_requirements_both_added",
+  "description": "Both sides appended dependencies at the end of requirements.txt, and BOTH added rich==13.7.0. Keep every dependency exactly once (naive 'keep both' duplicates rich).",
+  "reproduce": [
+    "git checkout -q main",
+    "git merge --no-edit pr-20"
+  ],
+  "commits": {
+    "base": "5c757d33c71d9c1f6eb726a7477a9cdf65546200",
+    "pr_commit": "278cc9cbcdbf931f45929c019dcd096dbb70a02a",
+    "main_commit": "e198c3dc2bc628097fd9323546bea2d6dea5f176"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "resolved",
+      "operation": "merge",
+      "parents": 2,
+      "tests": true,
+      "setup": [
+        "git checkout -q main",
+        "git merge --no-edit pr-20"
+      ],
+      "contains": {
+        "requirements.txt": [
+          "requests==2.31.0",
+          "click==8.1.7",
+          "rich==13.7.0"
+        ]
+      },
+      "exactly_once": {
+        "requirements.txt": [
+          "requests==2.31.0",
+          "click==8.1.7",
+          "rich==13.7.0"
+        ]
+      },
+      "solution": {
+        "requirements.txt": "requests==2.31.0\nrich==13.7.0\nclick==8.1.7\n"
+      }
+    }
+  }
+}

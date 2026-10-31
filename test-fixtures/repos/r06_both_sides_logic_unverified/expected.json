@@ -1,0 +1,26 @@
+{
+  "scenario": "r06_both_sides_logic_unverified",
+  "description": "Both sides changed the fee logic differently and neither was tested. Picking one is a business decision: the tool must NOT auto-resolve; it must stop and explain.",
+  "reproduce": [
+    "git checkout -q main",
+    "git merge --no-edit pr-31"
+  ],
+  "commits": {
+    "base": "3abb6a5e0223b395ce82b34273e1b47c9b09bc2a",
+    "pr_commit": "4ca045de30f27b9e9601a19fdb74666ae236ebec",
+    "main_commit": "eed4ba589820dfcaf4231529db0fdc58bc044bfc"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "refused",
+      "operation": "merge",
+      "unsafe_files": [
+        "app/payment.py"
+      ],
+      "setup": [
+        "git checkout -q main",
+        "git merge --no-edit pr-31"
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "scenario": "s53_original_only_in_remote_ref",
+  "description": "The original commit is reachable ONLY from refs/remotes/upstream/main (like a fork tracking upstream). No local branch contains it.",
+  "reproduce": [
+    "git branch -a --contains 32d47f3211332467950dd506419c066fd0bb9647",
+    "git log prod -1 --format=%B"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "upstream_original": "32d47f3211332467950dd506419c066fd0bb9647",
+    "prod_copy": "92dbbb50cd07ca08894fe63ec834b6196724040c"
+  },
+  "expected": {
+    "match": {
+      "backport": "92dbbb50cd07ca08894fe63ec834b6196724040c",
+      "original": "32d47f3211332467950dd506419c066fd0bb9647",
+      "exact": true
+    },
+    "must": [
+      "search all refs (git log --all / for-each-ref), not just local branches"
+    ]
+  }
+}

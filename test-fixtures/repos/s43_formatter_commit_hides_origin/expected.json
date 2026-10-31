@@ -1,0 +1,24 @@
+{
+  "scenario": "s43_formatter_commit_hides_origin",
+  "description": "The dev line was last touched by a whitespace-only formatter commit listed in .git-blame-ignore-revs. The real origin is the commit before it.",
+  "reproduce": [
+    "git checkout prod",
+    "git merge dev",
+    "git blame -w --ignore-revs-file .git-blame-ignore-revs dev -- app/payment.py"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "real_origin": "47937db47db004bd1fc23659a8a4de4556e99f46",
+    "formatter": "352868f6fe6f7d260b544e748e490b514733b3c3",
+    "prod_hotfix": "3c17c8aa550f0cc584d4e8c1af53d32317e57bdd"
+  },
+  "expected": {
+    "theirs": {
+      "origin_commit": "47937db47db004bd1fc23659a8a4de4556e99f46",
+      "status": "dev"
+    },
+    "must_not": [
+      "report the formatter commit 352868f6fe6f7d260b544e748e490b514733b3c3 as the origin"
+    ]
+  }
+}

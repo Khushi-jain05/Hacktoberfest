@@ -1,0 +1,30 @@
+{
+  "scenario": "s46_symlink_conflict",
+  "description": "A symlink was re-pointed differently on each side. No text, no markers \u2014 the conflict is between two link targets (mode 120000).",
+  "reproduce": [
+    "git checkout dev",
+    "git merge prod",
+    "git ls-files -u -s"
+  ],
+  "commits": {
+    "base": "9d207b2ad63b1da66baa8dbca7ed5f2824ad89f1",
+    "dev_commit": "2c311188a4b51f77c64aa10e76ac01f66dbd9d9b",
+    "prod_commit": "2bb4ae2869056f4321c48c8190feb0ea90a80f70"
+  },
+  "expected": {
+    "ours": {
+      "origin_commit": "2c311188a4b51f77c64aa10e76ac01f66dbd9d9b",
+      "status": "dev",
+      "target": "../envs/dev.yml"
+    },
+    "theirs": {
+      "origin_commit": "2bb4ae2869056f4321c48c8190feb0ea90a80f70",
+      "status": "production",
+      "target": "../envs/prod.yml"
+    },
+    "must_not": [
+      "follow the link and diff the target files",
+      "crash on mode 120000"
+    ]
+  }
+}

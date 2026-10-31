@@ -1,0 +1,10 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = /Users/khushijain/Desktop/hacktober Fest /test-fixtures/repos/s22_notes_diverged_between_clones/repo
+	fetch = +refs/*:refs/*
+	mirror = true

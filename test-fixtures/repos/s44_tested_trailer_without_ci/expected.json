@@ -1,0 +1,23 @@
+{
+  "scenario": "s44_tested_trailer_without_ci",
+  "description": "The dev commit's message CLAIMS 'Tested-in: production', but CI/deploy records have nothing for it. A self-written trailer is not evidence.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x 580a9410efbf53cc20cb2534d510b654b6002a86",
+    "git log -1 --format=%B 580a9410efbf53cc20cb2534d510b654b6002a86"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "38bc1e6f243e39f332177221fac28afa2d471ee1",
+    "dev_fix": "580a9410efbf53cc20cb2534d510b654b6002a86"
+  },
+  "expected": {
+    "theirs": {
+      "origin_commit": "580a9410efbf53cc20cb2534d510b654b6002a86",
+      "status": "unverified"
+    },
+    "must_not": [
+      "trust Tested-in / Tested-by trailers as test records"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "scenario": "s39_same_fix_two_paths",
+  "description": "The same fix reached prod twice: once by cherry-pick (deployed), and again via a uat -> prod promotion. git merges it cleanly.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry -v prod uat",
+    "git merge uat"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_fix": "f691aeda1e0e04b91e11f2e4d2ca1bfeb77fb3e6",
+    "prod_copy": "28c0c6f6b3a8b789adb44d69d48a9ab00ba68572",
+    "uat_merge": "3ea5e284713c8fb9b1ba8e4180eb5444f9d8964e"
+  },
+  "expected": {
+    "conflict": false,
+    "promotion_report": {
+      "f691aeda1e0e04b91e11f2e4d2ca1bfeb77fb3e6": "already in prod as 28c0c6f6b3a8b789adb44d69d48a9ab00ba68572 (deployed) \u2014 not new"
+    },
+    "must_not": [
+      "list f691aeda1e0e04b91e11f2e4d2ca1bfeb77fb3e6 as an unverified change entering prod"
+    ]
+  }
+}

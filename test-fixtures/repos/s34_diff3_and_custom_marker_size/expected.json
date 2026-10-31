@@ -1,0 +1,24 @@
+{
+  "scenario": "s34_diff3_and_custom_marker_size",
+  "description": "Repo uses merge.conflictStyle=diff3 (extra '||||||| base' section) and .md files use 12-character conflict markers.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x ff5421f116e21486a7891847a89d8427d86ba1b9"
+  ],
+  "commits": {
+    "base": "5e2a15dfbc77864a376d0cf3878a84bd58d87adf",
+    "prod_hotfix": "126b13aab856a94b15081f6fb2bdfe5e9184941b",
+    "dev_fix": "ff5421f116e21486a7891847a89d8427d86ba1b9"
+  },
+  "expected": {
+    "conflict": true,
+    "files": [
+      "app/payment.py",
+      "docs/fees.md"
+    ],
+    "must": [
+      "parse the base section",
+      "honour conflict-marker-size (or read index stages instead of markers)"
+    ]
+  }
+}

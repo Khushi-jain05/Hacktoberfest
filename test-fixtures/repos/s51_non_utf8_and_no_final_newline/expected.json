@@ -1,0 +1,24 @@
+{
+  "scenario": "s51_non_utf8_and_no_final_newline",
+  "description": "One conflicted file is Latin-1 (not UTF-8); the other has no newline at end of file.",
+  "reproduce": [
+    "git checkout dev",
+    "git merge prod"
+  ],
+  "commits": {
+    "base": "3b1dee1b736aab4c16709eb647b9d895503a3875",
+    "dev_commit": "5667810149bb2f8abc046bc50b1733bf833809f3",
+    "prod_commit": "1ef2b4da3c0ef6273eb7d0b55f03024b4881d7b2"
+  },
+  "expected": {
+    "files": [
+      "app/legacy_latin1.py",
+      "app/limits.txt"
+    ],
+    "must_not": [
+      "crash with UnicodeDecodeError",
+      "add or drop the final newline when resolving",
+      "re-encode the Latin-1 file as UTF-8"
+    ]
+  }
+}

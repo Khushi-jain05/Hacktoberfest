@@ -1,0 +1,22 @@
+{
+  "scenario": "s60_cherry_picked_merge_commit",
+  "description": "A whole merged PR was backported with 'git cherry-pick -m 1 <merge>'. The trailer names a MERGE commit, whose plain 'git show' diff is empty.",
+  "reproduce": [
+    "git log prod -1 --format=%B",
+    "git show 7504c58e7d9147d60c3f3c41a2de06b7ee19b888   # no diff",
+    "git diff 7504c58e7d9147d60c3f3c41a2de06b7ee19b888^1 7504c58e7d9147d60c3f3c41a2de06b7ee19b888"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_merge": "7504c58e7d9147d60c3f3c41a2de06b7ee19b888",
+    "prod_copy": "18aaffb931572c632fef2a3fb366184a167b9961"
+  },
+  "expected": {
+    "match": {
+      "backport": "18aaffb931572c632fef2a3fb366184a167b9961",
+      "original": "7504c58e7d9147d60c3f3c41a2de06b7ee19b888",
+      "exact": true,
+      "how": "compare against diff 7504c58e7d9147d60c3f3c41a2de06b7ee19b888^1..7504c58e7d9147d60c3f3c41a2de06b7ee19b888"
+    }
+  }
+}

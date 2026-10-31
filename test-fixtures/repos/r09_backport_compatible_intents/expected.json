@@ -1,0 +1,38 @@
+{
+  "scenario": "r09_backport_compatible_intents",
+  "description": "Backporting a fix to release conflicts with a production hotfix on the next line. The two intents are compatible; only a COMBINATION passes both sides' tests. The result must keep the -x trailer and be a 1-parent commit.",
+  "reproduce": [
+    "git checkout -q release",
+    "git cherry-pick -x b7cfbc44a59d72c3b493b1be025a0ff2ec5a8828"
+  ],
+  "commits": {
+    "base": "3abb6a5e0223b395ce82b34273e1b47c9b09bc2a",
+    "main_fix": "b7cfbc44a59d72c3b493b1be025a0ff2ec5a8828",
+    "release_hotfix": "33cf1ea225a1ffc30f538d17be4ef6db2af5255c"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "either",
+      "operation": "cherry-pick",
+      "parents": 1,
+      "tests": true,
+      "unsafe_files": [
+        "app/payment.py"
+      ],
+      "setup": [
+        "git checkout -q release",
+        "git cherry-pick -x b7cfbc44a59d72c3b493b1be025a0ff2ec5a8828"
+      ],
+      "contains": {
+        "app/payment.py": [
+          "rate = 0.025",
+          "if amount > 0 else 0"
+        ]
+      },
+      "trailer": "(cherry picked from commit b7cfbc44a59d72c3b493b1be025a0ff2ec5a8828)",
+      "solution": {
+        "app/payment.py": "def calculate_fee(amount):\n    rate = 0.025\n    return round(amount * rate, 2) if amount > 0 else 0\n\n\ndef validate(amount):\n    if amount <= 0:\n        raise ValueError(\"amount must be positive\")\n    return True\n\n\ndef refund(amount, fee):\n    return amount - fee\n"
+      }
+    }
+  }
+}

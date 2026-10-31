@@ -1,0 +1,29 @@
+{
+  "scenario": "s25_deploy_rollback",
+  "description": "p2 was deployed, then production was rolled back to p1 (see 'at' order in records). The prod branch still points at p2.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x d45747bc03e61df22969250a179d0f6626601a50"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "p1": "3a8b8db39a4632c9da656c89a3786ae503a9a8ca",
+    "p2_rolled_back": "ef9917a78b8d8549ccc28e5ff4a9192214b6da00",
+    "dev_fix": "d45747bc03e61df22969250a179d0f6626601a50"
+  },
+  "expected": {
+    "currently_in_production": "3a8b8db39a4632c9da656c89a3786ae503a9a8ca",
+    "ours": {
+      "origin_commit": "ef9917a78b8d8549ccc28e5ff4a9192214b6da00",
+      "status": "deployed once, ROLLED BACK \u2014 not running in production"
+    },
+    "theirs": {
+      "origin_commit": "d45747bc03e61df22969250a179d0f6626601a50",
+      "status": "tested-in-dev-only"
+    },
+    "must_not": [
+      "say ours is running in production",
+      "use 'tip of prod branch' as 'what is deployed'"
+    ]
+  }
+}

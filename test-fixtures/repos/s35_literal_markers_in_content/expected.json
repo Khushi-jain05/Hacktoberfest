@@ -1,0 +1,22 @@
+{
+  "scenario": "s35_literal_markers_in_content",
+  "description": "A committed test fixture legitimately contains conflict markers. Only app/payment.py is actually in conflict.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x 03a726c1d2579a73766a988242195cf53f429b77",
+    "git ls-files -u"
+  ],
+  "commits": {
+    "base": "c6d3c8311f94398afc93e0aa570065911590a5c1",
+    "prod_hotfix": "010ee63481d55a1d4fbc9af3aa490f75f66e5102",
+    "dev_fix": "03a726c1d2579a73766a988242195cf53f429b77"
+  },
+  "expected": {
+    "conflicted_files": [
+      "app/payment.py"
+    ],
+    "must_not": [
+      "report tests/fixtures/conflict_sample.txt as conflicted (don't grep the tree for markers)"
+    ]
+  }
+}

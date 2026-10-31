@@ -1,0 +1,28 @@
+{
+  "records": [
+    {
+      "commit": "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+      "env": "dev",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:22:20Z"
+    },
+    {
+      "commit": "b8c6fce6d1c30fe916a5a8c2f50520124bc60d65",
+      "env": "uat",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:26:20Z"
+    },
+    {
+      "commit": "a86429c24e43378073356107b217587e0dfb9f02",
+      "env": "production",
+      "kind": "deploy",
+      "result": "success",
+      "source": "deploy-log",
+      "at": "2026-09-21T14:30:20Z"
+    }
+  ]
+}

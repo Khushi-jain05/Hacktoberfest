@@ -1,0 +1,34 @@
+{
+  "scenario": "r05_previous_tested_resolution",
+  "description": "The identical conflict was already resolved on main (rate = 0.019) and that resolution passed uat. Reuse it (rerere is enabled and has it recorded).",
+  "reproduce": [
+    "git checkout -q release",
+    "git merge --no-edit pr-20"
+  ],
+  "commits": {
+    "base": "b649be64b9b9b1ffa683b364c44b2487f32ea1b2",
+    "release_copy": "56b33c84a0a17a93e6667152061707867b592d08",
+    "pr_commit": "c6d6902c85b3f64298ff4ca5b76280b70a9e5ade",
+    "main_resolution": "5570f5c2f878dd4220f2fc9582364fbe89ded8cb"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "resolved",
+      "operation": "merge",
+      "parents": 2,
+      "tests": true,
+      "setup": [
+        "git checkout -q release",
+        "git merge --no-edit pr-20"
+      ],
+      "contains": {
+        "app/payment.py": [
+          "rate = 0.019"
+        ]
+      },
+      "solution": {
+        "app/payment.py": "def calculate_fee(amount):\n    rate = 0.019\n    return round(amount * rate, 2)\n\n\ndef validate(amount):\n    if amount <= 0:\n        raise ValueError(\"amount must be positive\")\n    return True\n\n\ndef refund(amount, fee):\n    return amount - fee\n"
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "scenario": "s22_notes_diverged_between_clones",
+  "description": "Two people added provenance to the same commit in different clones. QA pushed first; Ops' plain notes fetch is now rejected (non-fast-forward).",
+  "reproduce": [
+    "cd clone_ops",
+    "git fetch origin refs/notes/tests:refs/notes/tests   # rejected",
+    "git fetch origin refs/notes/tests:refs/notes/origin-tests",
+    "git notes --ref=tests merge -s cat_sort_uniq refs/notes/origin-tests"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "commit": "10c9f832c6eefcfac0cc974b09e307515956c4bc"
+  },
+  "expected": {
+    "after_sync_in_clone_ops": {
+      "commit": "10c9f832c6eefcfac0cc974b09e307515956c4bc",
+      "records": [
+        "test:dev:pass",
+        "test:uat:pass",
+        "deploy:production"
+      ]
+    },
+    "must_not": [
+      "lose either side's records",
+      "overwrite notes with --force"
+    ]
+  }
+}

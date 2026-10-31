@@ -1,0 +1,34 @@
+{
+  "scenario": "s09_modify_delete",
+  "description": "dev deleted a file that prod hot-fixed. Merging prod back into dev gives a modify/delete conflict (no conflict markers in any file).",
+  "reproduce": [
+    "git checkout dev",
+    "git merge prod"
+  ],
+  "commits": {
+    "base": "1e8788234748671ad27b891f642d900a914ecff1",
+    "dev_delete": "d9d66107827821b52353d84f6685580deee0008f",
+    "prod_hotfix": "6d28834d8dd8e39e0a070239891c2247481aa63e"
+  },
+  "expected": {
+    "conflict": true,
+    "kind": "modify/delete",
+    "files": [
+      "app/legacy.py"
+    ],
+    "ours": {
+      "origin_commit": "d9d66107827821b52353d84f6685580deee0008f",
+      "action": "deleted",
+      "status": "tested-in-dev-only"
+    },
+    "theirs": {
+      "origin_commit": "6d28834d8dd8e39e0a070239891c2247481aa63e",
+      "action": "modified",
+      "status": "production-tested"
+    },
+    "should_warn": "keeping the delete drops a deployed hotfix",
+    "must_not": [
+      "crash because there are no <<<<<<< markers"
+    ]
+  }
+}

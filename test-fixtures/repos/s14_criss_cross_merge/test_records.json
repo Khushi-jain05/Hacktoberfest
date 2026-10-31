@@ -1,0 +1,20 @@
+{
+  "records": [
+    {
+      "commit": "a383abd37f57ee3c138e0d747f73c742d5746904",
+      "env": "dev",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:36:20Z"
+    },
+    {
+      "commit": "20ab0ef3d5bffd5aec466cdf9b3cc722bfde3330",
+      "env": "uat",
+      "kind": "test",
+      "result": "pass",
+      "source": "ci",
+      "at": "2026-09-21T14:41:20Z"
+    }
+  ]
+}

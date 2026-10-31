@@ -1,0 +1,24 @@
+{
+  "scenario": "s24_lying_trailer",
+  "description": "Commit message claims to be a cherry-pick of a tested fix, but the code is unrelated (it removes the refund fee). Messages are claims, not evidence.",
+  "reproduce": [
+    "git show 8c181770adb78affb367e4a0901719920b5991d4",
+    "git show 9904b0c3d88070e8e7f9918cb30b797852c8bbba"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "claimed_original": "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+    "prod_commit": "8c181770adb78affb367e4a0901719920b5991d4"
+  },
+  "expected": {
+    "link": {
+      "claimed": "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+      "verified": false,
+      "reason": "no overlapping changes; patch-id differs; similarity ~0"
+    },
+    "status_of_prod_commit": "unverified",
+    "must_not": [
+      "inherit the uat test of the claimed original"
+    ]
+  }
+}

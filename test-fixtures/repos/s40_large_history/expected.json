@@ -1,0 +1,145 @@
+{
+  "scenario": "s40_large_history",
+  "description": "225 commits, one 800-line file, 25 conflict hunks. Every hunk has a different origin commit on each side. CI ran only on dev tip; deploy only on prod tip.",
+  "reproduce": [
+    "git checkout prod",
+    "git merge dev"
+  ],
+  "commits": {
+    "base": "bbfa631ef48cf48a5eae63b39190299f968ab7bb",
+    "dev_tip": "055dc346c803a88e816d4d5d44d492ef86dec779",
+    "prod_tip": "2dc8016146723c26b853f245a767372e62414a66"
+  },
+  "expected": {
+    "hunks": [
+      {
+        "function": "f0",
+        "ours_origin": "72e9114506acaacbab8b126a7c6ff5cbb9d40316",
+        "theirs_origin": "df4ff6ebab32faa9b78e7038aa520381b443755f"
+      },
+      {
+        "function": "f8",
+        "ours_origin": "96ea2783ff46771dd334fd115d6e232379c177c6",
+        "theirs_origin": "307a4666acffe036c2bf65c5219c7ac11bf4184d"
+      },
+      {
+        "function": "f16",
+        "ours_origin": "07a87345d856b4ebcacf81bbc71a368d6132aee1",
+        "theirs_origin": "8c3ae2616c7272267222d20016340e65efd727ff"
+      },
+      {
+        "function": "f24",
+        "ours_origin": "6cde82ccb83537d2ef798e39a5c35ff35def5e93",
+        "theirs_origin": "9a24423f5cb6f53389ccda0b2c3ad91142b2726a"
+      },
+      {
+        "function": "f32",
+        "ours_origin": "a05967e0591da766b2a0f974bf288e014fc73be6",
+        "theirs_origin": "cf886a010ead3bb8dbe7eecb6339b4988ce9d416"
+      },
+      {
+        "function": "f40",
+        "ours_origin": "ef5e12dabbdeb88df5534b72ab454c02d9456d77",
+        "theirs_origin": "1bff9d75141f6e225748808b19511c6e237efe3c"
+      },
+      {
+        "function": "f48",
+        "ours_origin": "781872d1598cd8d727166a62888b58f7ea1561ae",
+        "theirs_origin": "79c361cc233c9c44f4da05f06f781dc5337fc823"
+      },
+      {
+        "function": "f56",
+        "ours_origin": "53aa04b31fe874702ca8f935226a389673ac1ace",
+        "theirs_origin": "63508563fdab59b8cc285cbd0b55aa821096cb05"
+      },
+      {
+        "function": "f64",
+        "ours_origin": "ca852ee17ff8d6e34485d32c34f3e5b67b575c20",
+        "theirs_origin": "7e606d95cfd4ae80ce99fbf9e975f785208aa813"
+      },
+      {
+        "function": "f72",
+        "ours_origin": "d494eb1404792d1a8d7b45cedc3002033c5dadc5",
+        "theirs_origin": "c8d0bcd0cd5b7aec989222d22e111b1c8bfb79a6"
+      },
+      {
+        "function": "f80",
+        "ours_origin": "784329f733038c163466b41b57980672ef2ebf21",
+        "theirs_origin": "68be63f8f55e1ece2c07894a0094626ea9ce0555"
+      },
+      {
+        "function": "f88",
+        "ours_origin": "36da70ba347481f4684bd27d26e633ee1afeb937",
+        "theirs_origin": "07573efe74cdbd503054a96d976d16ea59ee67aa"
+      },
+      {
+        "function": "f96",
+        "ours_origin": "13cb1142c8024becb7779c17d47fd71c482f5985",
+        "theirs_origin": "1ace4d16637ad7f743fba29e30d5c5bf7dc7465f"
+      },
+      {
+        "function": "f104",
+        "ours_origin": "8a922fd1f8df0dc1484ce1d4c36e2776e7d4b87e",
+        "theirs_origin": "abdabdd4c95520fc5476100158b3b2152fbaed27"
+      },
+      {
+        "function": "f112",
+        "ours_origin": "adc8d50d76350d12f7ddd594475503644fbef4e1",
+        "theirs_origin": "e3b86f49bf2e8067bee9c239c826d561c7f190bb"
+      },
+      {
+        "function": "f120",
+        "ours_origin": "08c4d73784c82b3de5e734d20cb02c9e4b789f29",
+        "theirs_origin": "28fa0339dc1079ceaca089b0b3902b2b8e287883"
+      },
+      {
+        "function": "f128",
+        "ours_origin": "0a64c2366005d24f6c0ac1392b407b338bca3691",
+        "theirs_origin": "a1d2116c9d681d6e8c9a3e99b47f9154901e0c13"
+      },
+      {
+        "function": "f136",
+        "ours_origin": "9225b15578d12adca1724368eb53ffe54be432a8",
+        "theirs_origin": "0c40f6c4176ed54c4a975d09af4ac38141046787"
+      },
+      {
+        "function": "f144",
+        "ours_origin": "7b2364abecc528aced0f75458799eab7696f8ec3",
+        "theirs_origin": "3104b5df0b245bdc1dc7abb13e34e31e299aaf15"
+      },
+      {
+        "function": "f152",
+        "ours_origin": "ff91e19a5967b4ef23ff7ba356b391ff253dffd1",
+        "theirs_origin": "3b26be056fe8648d9bcb96afb7f33b2bcb012a4e"
+      },
+      {
+        "function": "f160",
+        "ours_origin": "22e8ea1fbcd2c737b2a0f79ff6b1582b60f5cabf",
+        "theirs_origin": "d042b1560085af019ee0a7de4f3482d4fac3606e"
+      },
+      {
+        "function": "f168",
+        "ours_origin": "9c69f9dca86d1217f8234ec00105537856d0b3d9",
+        "theirs_origin": "54d087f17aa4e686c29904bcaa66d5e35adbde96"
+      },
+      {
+        "function": "f176",
+        "ours_origin": "9bd90c50d5bd2dd6680adfdf4a185a78dbdb9e0d",
+        "theirs_origin": "dc9ffcf218baca066af8866abdb31baece6ebe6e"
+      },
+      {
+        "function": "f184",
+        "ours_origin": "76aaf4ea50fa9b9a4b043cf3d63818d5986b1d04",
+        "theirs_origin": "1e908a1f23a50d06f4351b29d1ab1ca31981688f"
+      },
+      {
+        "function": "f192",
+        "ours_origin": "ba2735007b830c7757390db1567759c5ded944b8",
+        "theirs_origin": "a6658ab60c95fd78173204e58cece7d869abba07"
+      }
+    ],
+    "ours_status": "production-deployed (via prod tip)",
+    "theirs_status": "dev-tested (via dev tip)",
+    "performance": "should finish in a few seconds; no per-commit subprocess storm"
+  }
+}

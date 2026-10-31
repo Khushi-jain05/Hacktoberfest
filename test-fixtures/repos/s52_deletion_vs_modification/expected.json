@@ -1,0 +1,28 @@
+{
+  "scenario": "s52_deletion_vs_modification",
+  "description": "prod's side of the hunk is EMPTY: the hotfix deleted those lines. Blame has nothing to point at; the origin is the commit that deleted them.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x 926e187c7aaf1866b59a8659f142d494adc498f3",
+    "git log -S'amount must be positive' --oneline prod -- app/payment.py"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_deleting_hotfix": "e70a004e65d81d63341751061e1cc62d22603a59",
+    "dev_fix": "926e187c7aaf1866b59a8659f142d494adc498f3"
+  },
+  "expected": {
+    "ours": {
+      "origin_commit": "e70a004e65d81d63341751061e1cc62d22603a59",
+      "status": "production",
+      "change": "deletion"
+    },
+    "theirs": {
+      "origin_commit": "926e187c7aaf1866b59a8659f142d494adc498f3",
+      "status": "dev"
+    },
+    "must_not": [
+      "report origin null/unknown just because the side has no lines"
+    ]
+  }
+}

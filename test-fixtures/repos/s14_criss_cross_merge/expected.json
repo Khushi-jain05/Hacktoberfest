@@ -1,0 +1,35 @@
+{
+  "scenario": "s14_criss_cross_merge",
+  "description": "Branches merged into each other (criss-cross), so there are TWO merge bases.",
+  "reproduce": [
+    "git merge-base --all dev uat",
+    "git checkout uat",
+    "git merge dev"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_1": "b0f1308438a0e3edf30a1a4d295a6cfb3f841135",
+    "uat_1": "52acfd69ed3dc036e876e9ad7d996126c2e12c56",
+    "dev_fee": "a383abd37f57ee3c138e0d747f73c742d5746904",
+    "uat_fee": "20ab0ef3d5bffd5aec466cdf9b3cc722bfde3330",
+    "merge_bases": [
+      "52acfd69ed3dc036e876e9ad7d996126c2e12c56",
+      "b0f1308438a0e3edf30a1a4d295a6cfb3f841135"
+    ]
+  },
+  "expected": {
+    "conflict": true,
+    "ours": {
+      "origin_commit": "20ab0ef3d5bffd5aec466cdf9b3cc722bfde3330",
+      "status": "uat-tested"
+    },
+    "theirs": {
+      "origin_commit": "a383abd37f57ee3c138e0d747f73c742d5746904",
+      "status": "tested-in-dev-only"
+    },
+    "must_not": [
+      "assume a single merge base",
+      "crash"
+    ]
+  }
+}

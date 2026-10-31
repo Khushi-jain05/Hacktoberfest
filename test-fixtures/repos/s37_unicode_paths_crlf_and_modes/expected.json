@@ -1,0 +1,22 @@
+{
+  "scenario": "s37_unicode_paths_crlf_and_modes",
+  "description": "Conflict in a path with spaces and non-ASCII characters, in a CRLF file. The script merges cleanly but must end up executable (mode from prod, content from dev).",
+  "reproduce": [
+    "git checkout dev",
+    "git merge prod",
+    "git -c core.quotepath=false diff --name-only --diff-filter=U"
+  ],
+  "commits": {
+    "base": "c8dca55720c6b10ce07deab478af7c065be4e420",
+    "prod_hotfix": "2ae982e61a5fb29f539b166b89cc03a3aff03406",
+    "dev_fix": "56673ff686d57043eedfbde1e16eaf32219332a7"
+  },
+  "expected": {
+    "conflicted_path": "app/\u00fcber fees/gr\u00f6\u00dfe.py",
+    "must": [
+      "handle the path without octal escaping (use -z or core.quotepath=false)",
+      "keep CRLF line endings in the resolved file",
+      "keep mode 100755 on 'bin/run fees.sh'"
+    ]
+  }
+}

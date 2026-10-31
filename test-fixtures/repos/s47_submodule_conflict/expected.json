@@ -1,0 +1,30 @@
+{
+  "scenario": "s47_submodule_conflict",
+  "description": "Submodule pointer conflict: dev moved lib to v2, prod moved it to a v1.1 security fix. The 'file' in conflict is a gitlink, not text.",
+  "reproduce": [
+    "git checkout dev",
+    "git merge prod",
+    "git ls-files -u -s lib"
+  ],
+  "commits": {
+    "base": "bb729494fb32a3862769e178f6b48f7704a9dc22",
+    "lib_v1": "b81a5ca08baf0b01dc44ee271dfefa752567974a",
+    "lib_v2": "e53797f1e5c67002fa367306267747ddde210e2d",
+    "lib_v1_1": "1482c9205d1d91acfa693ea4425fae26231245d4",
+    "dev_commit": "af13e1d20ddf41fd7ad1e0a1393c2f5d598e6418",
+    "prod_commit": "42921c3a5f5794380406c2c5e79657f2d1d7cc36"
+  },
+  "expected": {
+    "ours": {
+      "origin_commit": "af13e1d20ddf41fd7ad1e0a1393c2f5d598e6418",
+      "status": "dev",
+      "points_to": "e53797f1e5c67002fa367306267747ddde210e2d"
+    },
+    "theirs": {
+      "origin_commit": "42921c3a5f5794380406c2c5e79657f2d1d7cc36",
+      "status": "production",
+      "points_to": "1482c9205d1d91acfa693ea4425fae26231245d4"
+    },
+    "should_warn": "taking ours drops the production security fix in lib"
+  }
+}

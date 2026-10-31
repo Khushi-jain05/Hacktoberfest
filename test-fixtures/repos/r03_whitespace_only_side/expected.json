@@ -1,0 +1,33 @@
+{
+  "scenario": "r03_whitespace_only_side",
+  "description": "main's side of the conflict is a whitespace-only formatter change; the PR's side is real logic. Safe to fix automatically: keep the PR's logic.",
+  "reproduce": [
+    "git checkout -q main",
+    "git merge --no-edit pr-7"
+  ],
+  "commits": {
+    "base": "3abb6a5e0223b395ce82b34273e1b47c9b09bc2a",
+    "pr_commit": "7f7e6403b288979089212464cb68c339c215195d",
+    "formatter": "2749274fe2d3f0a0eb9db7f007f013b4fd63c91c"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "resolved",
+      "operation": "merge",
+      "parents": 2,
+      "tests": true,
+      "setup": [
+        "git checkout -q main",
+        "git merge --no-edit pr-7"
+      ],
+      "contains": {
+        "app/payment.py": [
+          "if amount < 1000 else 0.015"
+        ]
+      },
+      "solution": {
+        "app/payment.py": "def calculate_fee(amount):\n    rate = 0.02 if amount < 1000 else 0.015\n    return round(amount * rate, 2)\n\n\ndef validate(amount):\n    if amount <= 0:\n        raise ValueError(\"amount must be positive\")\n    return True\n\n\ndef refund(amount, fee):\n    return amount - fee\n"
+      }
+    }
+  }
+}

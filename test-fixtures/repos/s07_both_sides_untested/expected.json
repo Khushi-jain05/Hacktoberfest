@@ -1,0 +1,27 @@
+{
+  "scenario": "s07_both_sides_untested",
+  "description": "Same conflict as s02, but neither side was ever tested or deployed. Records exist for other commits, so the answer is 'unverified', not 'unknown'.",
+  "reproduce": [
+    "git checkout prod",
+    "git cherry-pick -x 26daa5b30173a91263cda5c373840a82e3054743"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_change": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "26daa5b30173a91263cda5c373840a82e3054743"
+  },
+  "expected": {
+    "conflict": true,
+    "ours": {
+      "origin_commit": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+      "status": "unverified"
+    },
+    "theirs": {
+      "origin_commit": "26daa5b30173a91263cda5c373840a82e3054743",
+      "status": "unverified"
+    },
+    "must_not": [
+      "treat 'is on prod branch' as 'production-tested'"
+    ]
+  }
+}

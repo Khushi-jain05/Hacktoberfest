@@ -1,0 +1,29 @@
+{
+  "scenario": "s03_modified_backport_with_trailer",
+  "description": "Backport had to be edited during conflict resolution, so patch-id no longer matches. The -x trailer is the only exact link.",
+  "reproduce": [
+    "git log uat -1 --format=%B",
+    "git patch-id --stable < <(git show d543700b6f397482a4fb9506561cb1470a90366a)",
+    "git patch-id --stable < <(git show 7122598cbc03edb49bb68247306436c2248d4950)"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "uat_message_change": "038f1d63fa8de74999bd82b1662db14a0d77169f",
+    "dev_fix": "7122598cbc03edb49bb68247306436c2248d4950",
+    "uat_backport": "d543700b6f397482a4fb9506561cb1470a90366a"
+  },
+  "expected": {
+    "match": {
+      "backport": "d543700b6f397482a4fb9506561cb1470a90366a",
+      "original": "7122598cbc03edb49bb68247306436c2248d4950",
+      "method": "cherry-pick trailer",
+      "patch_id_equal": false,
+      "modified_during_backport": true
+    },
+    "testing": "dev test of original does NOT cover the backport; backport has its own uat pass",
+    "must_not": [
+      "report the two as unrelated",
+      "copy the dev test result onto the backport"
+    ]
+  }
+}

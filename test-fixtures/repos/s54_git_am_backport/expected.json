@@ -1,0 +1,26 @@
+{
+  "scenario": "s54_git_am_backport",
+  "description": "Backport by e-mailed patch (git format-patch | git am -3), Linux-kernel style. There is no CHERRY_PICK_HEAD and no trailer \u2014 the original is only identifiable by its diff.",
+  "reproduce": [
+    "git checkout prod",
+    "git am -3 ../backport.patch",
+    "cat .git/rebase-apply/patch"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_hotfix": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "dev_fix": "b869bc07a4661451ffb491c1e2dce32adcc04286"
+  },
+  "expected": {
+    "operation": "am",
+    "theirs": {
+      "origin_commit": "b869bc07a4661451ffb491c1e2dce32adcc04286",
+      "status": "dev",
+      "found_by": "patch-id of the mailed patch"
+    },
+    "ours": {
+      "origin_commit": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+      "status": "production"
+    }
+  }
+}

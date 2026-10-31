@@ -1,0 +1,27 @@
+{
+  "scenario": "s01_clean_backport",
+  "description": "One fix promoted dev -> uat -> prod with cherry-pick -x, no conflicts. Baseline.",
+  "reproduce": [
+    "git log --all --oneline",
+    "git cherry -v prod dev"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "dev_fix": "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+    "uat_copy": "b8c6fce6d1c30fe916a5a8c2f50520124bc60d65",
+    "prod_copy": "a86429c24e43378073356107b217587e0dfb9f02"
+  },
+  "expected": {
+    "conflict": false,
+    "equivalent_commits": [
+      "9904b0c3d88070e8e7f9918cb30b797852c8bbba",
+      "b8c6fce6d1c30fe916a5a8c2f50520124bc60d65",
+      "a86429c24e43378073356107b217587e0dfb9f02"
+    ],
+    "match_evidence": [
+      "identical patch-id",
+      "cherry-pick -x trailer"
+    ],
+    "status_of_change": "deployed to production (via prod copy); tested in uat and dev"
+  }
+}

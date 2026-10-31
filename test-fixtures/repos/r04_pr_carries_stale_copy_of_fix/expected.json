@@ -1,0 +1,41 @@
+{
+  "scenario": "r04_pr_carries_stale_copy_of_fix",
+  "description": "The PR branch carries an OLD copy of a fix (cherry-picked) that main has since improved and deployed. Keep main's line (the PR's version is already in main's history, by patch-id) plus the PR's own refund change.",
+  "reproduce": [
+    "git checkout -q main",
+    "git merge --no-edit pr-15"
+  ],
+  "commits": {
+    "base": "3abb6a5e0223b395ce82b34273e1b47c9b09bc2a",
+    "main_fix": "215b28d3419e2a8c43754791b0216e4addb92158",
+    "main_improvement": "6efee67db06eb0ad26913229b6ade115e4137402",
+    "pr_stale_copy": "cb2f564c13a938be22307ed3a3092da60679783f",
+    "pr_commit": "336a5b499f0a0b6bea1aca01fdb54f3e64098941"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "resolved",
+      "operation": "merge",
+      "parents": 2,
+      "tests": true,
+      "setup": [
+        "git checkout -q main",
+        "git merge --no-edit pr-15"
+      ],
+      "contains": {
+        "app/payment.py": [
+          "if amount < 5000",
+          "max(amount - fee, 0)"
+        ]
+      },
+      "not_contains": {
+        "app/payment.py": [
+          "if amount < 1000"
+        ]
+      },
+      "solution": {
+        "app/payment.py": "def calculate_fee(amount):\n    rate = 0.02 if amount < 5000 else 0.015\n    return round(amount * rate, 2)\n\n\ndef validate(amount):\n    if amount <= 0:\n        raise ValueError(\"amount must be positive\")\n    return True\n\n\ndef refund(amount, fee):\n    return max(amount - fee, 0)\n"
+      }
+    }
+  }
+}

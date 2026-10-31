@@ -1,0 +1,32 @@
+{
+  "scenario": "s19_resolution_mixes_hunks",
+  "description": "Two-hunk conflict (s10) resolved by taking OURS for hunk 1 and THEIRS for hunk 2.",
+  "reproduce": [
+    "git show 1f44512a833c40c5e4886588287fa3cdc6a979cd",
+    "git blame 1f44512a833c40c5e4886588287fa3cdc6a979cd -- app/payment.py"
+  ],
+  "commits": {
+    "base": "ef9c2cea78f5f1e7cab6d815c67062e6cb1a2b0d",
+    "prod_deployed": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+    "prod_undeployed": "b58b3e334e8ff626a1981706e3f1e741b16cb048",
+    "dev_fix": "24187a6f1f0df168bfd4d3aa578fa250e90cbdcf",
+    "resolution": "1f44512a833c40c5e4886588287fa3cdc6a979cd"
+  },
+  "expected": {
+    "line_provenance_after_resolution": {
+      "rate = 0.025": {
+        "from": "92f89fc201d78f92d18cc374d30c97916b5d7daa",
+        "status": "production-tested"
+      },
+      "return max(amount - fee, 0)": {
+        "from": "24187a6f1f0df168bfd4d3aa578fa250e90cbdcf",
+        "status": "uat-tested"
+      }
+    },
+    "whole_commit_status": "UNVERIFIED \u2014 this combination was never tested together",
+    "dropped": {
+      "commit": "b58b3e334e8ff626a1981706e3f1e741b16cb048",
+      "note": "its refund change was discarded by the resolution"
+    }
+  }
+}

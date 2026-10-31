@@ -1,0 +1,26 @@
+{
+  "scenario": "r07_mixed_safe_and_unsafe_files",
+  "description": "CHANGELOG.md is safe to fix, app/payment.py is not. The tool must not commit a half-resolved merge: app/payment.py must still be in conflict afterwards.",
+  "reproduce": [
+    "git checkout -q main",
+    "git merge --no-edit pr-41"
+  ],
+  "commits": {
+    "base": "0adeae814d6f3a3c683af8dae4f1fca8e20a847e",
+    "pr_commit": "436b6571a73e711ed7aec61a4e6ad60c92341039",
+    "main_commit": "d6f93b6e18fe60c84bc58e2e40cd0134deea314c"
+  },
+  "expected": {
+    "resolve": {
+      "expect": "refused",
+      "operation": "merge",
+      "unsafe_files": [
+        "app/payment.py"
+      ],
+      "setup": [
+        "git checkout -q main",
+        "git merge --no-edit pr-41"
+      ]
+    }
+  }
+}
